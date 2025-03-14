@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f4f4"
+    android:padding="16dp">
+
+    <!-- En-tête -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#242A75"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Spinner
+            android:id="@+id/modeSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="5dp"
+            android:textSize="16sp"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
+
+    <!-- Notification -->
+    <TextView
+        android:id="@+id/notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFD700"
+        android:text="⚠️ L'unité terrain a demandé un repli !"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_below="@id/header"
+        android:layout_marginTop="10dp" />
+
+    <!-- Boutons de commande -->
+    <LinearLayout
+        android:id="@+id/buttonsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@id/notification"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/btnRepli"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Repli"
+            android:background="#242A75"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="10dp" />
+
+        <Button
+            android:id="@+id/btnValider"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Demande validée"
+            android:background="#242A75"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="10dp" />
+
+        <Button
+            android:id="@+id/btnRefuser"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Demande refusée"
+            android:background="#242A75"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="10dp" />
+    </LinearLayout>
+
+    <!-- Boutons Mode Éco -->
+    <LinearLayout
+        android:id="@+id/buttonsMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonsContainer"
+        android:layout_marginTop="20dp"
+        android:background="#242A75"
+        android:padding="8dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mode Éco"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:layout_marginRight="10dp" />
+
+        <Switch
+            android:id="@+id/ecoModeSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>
