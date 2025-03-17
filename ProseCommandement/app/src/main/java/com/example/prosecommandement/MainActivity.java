@@ -1,36 +1,67 @@
 package com.example.prosecommandement;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText teamNameEditText;
-    private EditText teamIdEditText;
-    private EditText targetInfoEditText;
-    private Button validateButton;
+    private static final int SPLASH_DISPLAY_LENGTH = 1500; // 1.5 secondes
+    private SharedPreferences missionPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        teamNameEditText = findViewById(R.id.teamName);
-        teamIdEditText = findViewById(R.id.teamId);
-        targetInfoEditText = findViewById(R.id.targetInfo);
-        validateButton = findViewById(R.id.validateButton);
+        // Initialize SharedPreferences
+        missionPrefs = getSharedPreferences("MissionPrefs", MODE_PRIVATE);
 
-        validateButton.setOnClickListener(new View.OnClickListener() {
+        // Splash screen delay
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
-                // Handle validation logic here
-                Intent intent = new Intent(MainActivity.this, SurActivity.class);
-                startActivity(intent);
+            public void run() {
+                // Check if there's an active mission
+                checkMissionStatus();
             }
-        });
+        }, SPLASH_DISPLAY_LENGTH);
+    }
+
+    private void checkMissionStatus() {
+        boolean missionActive = missionPrefs.getBoolean("mission_active", false);
+
+        Intent intent;
+        if (missionActive) {
+            // Retrieve the previous screen to go back to
+            String previousPage = missionPrefs.getString("previous_page", "safe_mode");
+
+            // Determine which screen to show
+            switch (previousPage) {
+                case "reconnaissance_mode":
+                    intent = new Intent(this, RecoActivity.class);
+                    break;
+                case "eco_reconnaissance_mode":
+                    intent = new Intent(this, EcoRecoActivity.class);
+                    break;
+                case "combat_mode":
+                    intent = new Intent(this, CombatActivity.class);
+                    break;
+                case "eco_combat_mode":
+                    intent = new Intent(this, EcoCombatActivity.class);
+                    break;
+                default:
+                    intent = new Intent(this, SurActivity.class);
+                    break;
+            }
+        } else {
+            // If no active mission, go to config screen
+            intent = new Intent(this, ConfigActivity.class);
+        }
+
+        startActivity(intent);
+        finish();
     }
 }

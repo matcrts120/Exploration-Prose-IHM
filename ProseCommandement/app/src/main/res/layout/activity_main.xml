@@ -1,101 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f4f4f4"
-    android:padding="16dp">
+    android:background="@color/thales_blue"
+    tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/logo_thales"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:background="#242A75"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:adjustViewBounds="true"
+        android:src="@drawable/thales_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
 
-        <ImageView
-            android:id="@+id/logoThales"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/thales_logo"
-            android:contentDescription="Thales Logo" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Configuration de la Mission"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:gravity="center" />
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/a_code_green"
-            android:contentDescription="Logo" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:padding="15dp">
+        android:layout_marginTop="16dp"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_thales" />
 
-        <EditText
-            android:id="@+id/teamName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/edit_text_border"
-            android:hint="Nom de l'équipe"
-            android:minHeight="48dp"
-            android:padding="8dp" />
-
-        <EditText
-            android:id="@+id/teamId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/edit_text_border"
-            android:hint="ID de l'équipe"
-            android:minHeight="48dp"
-            android:padding="8dp" />
-
-        <EditText
-            android:id="@+id/targetInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/edit_text_border"
-            android:hint="Info de la cible"
-            android:minHeight="48dp"
-            android:padding="8dp" />
-
-        <Button
-            android:id="@+id/validateButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Valider la mission"
-            android:background="#242A75"
-            android:textColor="@android:color/white"
-            android:padding="12dp"
-            android:layout_marginTop="15dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#242A75"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <!-- Add buttons here if needed -->
-
-    </LinearLayout>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,115 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f4f4f4"
-    android:padding="16dp">
+    android:background="@color/white"
+    tools:context=".SurActivity">
 
-    <LinearLayout
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#242A75"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:background="@color/thales_blue"
+        android:padding="10dp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/logoThales"
+            android:id="@+id/logo_thales"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:src="@drawable/thales_logo"
-            android:contentDescription="Thales Logo" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
-            android:id="@+id/modeSelector"
-            android:layout_width="0dp"
+            android:id="@+id/mode_selector"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="@drawable/spinner_background"
-            android:gravity="center"
-            android:minHeight="48dp"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:popupBackground="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/logo"
+            app:layout_constraintStart_toEndOf="@+id/logo_thales"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <ImageView
             android:id="@+id/logo"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:src="@drawable/a_code_green"
-            android:contentDescription="Logo" />
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/conversation"
+    <!-- Conversation Area -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/conversation_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/header"
-        android:layout_above="@id/chatInput"
+        android:background="@color/white"
         android:padding="10dp"
-        android:background="@android:color/white"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        app:layout_constraintBottom_toTopOf="@+id/button_container"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ID Allié : La cible est en ligne de mire"
-                android:textStyle="bold"
-                android:padding="5dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ID Allié : Demande autorisation de tirer"
-                android:textStyle="bold"
-                android:padding="5dp"/>
-        </LinearLayout>
-    </ScrollView>
-
+    <!-- Action Buttons -->
     <LinearLayout
-        android:id="@+id/chatInput"
+        android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:background="@android:color/white">
+        app:layout_constraintBottom_toTopOf="@+id/chat_input_container">
+
+        <Button
+            android:id="@+id/btn_end_mission"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="2dp"
+            android:layout_weight="1"
+            android:backgroundTint="#242A75"
+            android:text="@string/end_mission"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_request_backup"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="2dp"
+            android:layout_weight="1"
+            android:backgroundTint="#242A75"
+            android:text="@string/request_backup"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_retreat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            android:layout_weight="1"
+            android:backgroundTint="#242A75"
+            android:text="@string/retreat"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Chat Input -->
+    <LinearLayout
+        android:id="@+id/chat_input_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/footer">
 
         <EditText
-            android:id="@+id/messageInput"
+            android:id="@+id/message_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/edit_text_border"
-            android:hint="Écrire un message..."
-            android:minHeight="48dp"
-            android:padding="8dp" />
+            android:hint="@string/write_message"
+            android:inputType="text"
+            android:padding="8dp"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <Button
-            android:id="@+id/sendButton"
+            android:id="@+id/send_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Envoyer"
-            android:background="#242A75"
-            android:textColor="@android:color/white"
-            android:padding="8dp"
-            android:layout_marginLeft="8dp"/>
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#242A75"
+            android:text="@string/send"
+            android:textColor="@color/white" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/buttons"
+    <!-- Footer -->
+    <View
+        android:id="@+id/footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/chatInput"
-        android:background="#242A75"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:layout_height="50dp"
+        android:background="@color/thales_blue"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-        <!-- Add buttons here if needed -->
-
-    </LinearLayout>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
