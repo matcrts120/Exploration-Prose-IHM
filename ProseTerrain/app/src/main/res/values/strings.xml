@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tactical Terrain</string>
+
+    <!-- Common -->
+    <string name="confirm">Confirmer</string>
+    <string name="cancel">Annuler</string>
+    <string name="close">Fermer</string>
+    <string name="send">Envoyer</string>
+    <string name="back">Retour</string>
+
+    <!-- Launch Screen -->
+    <string name="mission_launch">Lancement de la Mission</string>
+    <string name="waiting_for_configuration">En attente de la configuration du commandement…</string>
+    <string name="configuration_complete">Configuration terminée !</string>
+
+    <!-- Mission Screen -->
+    <string name="mission_summary">Récapitulatif de Mission</string>
+    <string name="team_name_label">📌 Nom de l\'équipe :</string>
+    <string name="team_id_label">🆔 ID de l\'équipe :</string>
+    <string name="target_info_label">🎯 Information cible :</string>
+    <string name="mission_location_label">📍 Lieu de mission :</string>
+    <string name="mission_time_label">📆 Date et heure :</string>
+
+    <!-- Transmission Screen -->
+    <string name="safe_mode">Mode Sûr</string>
+    <string name="eco_mode">Mode Eco</string>
+    <string name="write_message">Écrire un message…</string>
+    <string name="end_mission">Fin de mission</string>
+    <string name="request_backup">Demande de renfort</string>
+    <string name="retreat">Repli</string>
+    <string name="end_mission_confirmation">Êtes-vous sûr de vouloir terminer la mission ?</string>
+    <string name="command_retreat_request">⚠️ Le commandement a demandé un repli !</string>
+
+    <!-- Popups -->
+    <string name="unknown_entity">ENTITÉ INCONNUE</string>
+    <string name="enemy_nearby">ENNEMI A PROXIMITE !</string>
+    <string name="photo">Photo</string>
+
+    <!-- Mission Complete Screen -->
+    <string name="mission_end">Fin de Mission</string>
+    <string name="mission_completed">MISSION TERMINÉE</string>
+    <string name="return_to_base">Retournez à la base</string>
+    <string name="entities_detected_label">Nombre d\'entités détectées:</string>
+    <string name="ally_id_label">ID allié:</string>
+    <string name="mission_status_label">Etat de la mission:</string>
+    <string name="completed_status">Complétée</string>
+    <string name="extraction_point">Point d\'extraction</string>
+    <string name="return_to_extraction">Rendez-vous au point d\'extraction.</string>
+</resources>
