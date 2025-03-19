@@ -32,6 +32,7 @@ public class TransmissionActivity extends AppCompatActivity {
     private Button endMissionButton;
     private Button requestBackupButton;
     private Button retreatButton;
+    private Button btnEco;
 
     private SharedPreferences missionPrefs;
     private Random random = new Random();
@@ -59,6 +60,7 @@ public class TransmissionActivity extends AppCompatActivity {
         endMissionButton = findViewById(R.id.btn_end_mission);
         requestBackupButton = findViewById(R.id.btn_request_backup);
         retreatButton = findViewById(R.id.btn_retreat);
+        btnEco = findViewById(R.id.btn_eco);
     }
 
     private void setupConversation() {
@@ -112,6 +114,13 @@ public class TransmissionActivity extends AppCompatActivity {
                 Toast.makeText(TransmissionActivity.this, "Demande de repli envoyée au commandement", Toast.LENGTH_SHORT).show();
             }
         });
+
+        btnEco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                modeEco();
+            }
+        });
     }
 
     private void sendMessage(String content) {
@@ -158,7 +167,7 @@ public class TransmissionActivity extends AppCompatActivity {
             editor.apply();
 
             // Retourner à l'écran principal
-            Intent intent = new Intent(TransmissionActivity.this, MainActivity.class);
+            Intent intent = new Intent(TransmissionActivity.this, FinMissionActivity.class);
             startActivity(intent);
             finish();
         });
@@ -188,4 +197,17 @@ public class TransmissionActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
+    private void modeEco() {
+        // Réinitialiser les données de mission
+        SharedPreferences.Editor editor = missionPrefs.edit();
+        editor.clear();
+        editor.apply();
+
+        // Ecran Eco
+        Intent intent = new Intent(TransmissionActivity.this, EcoActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }

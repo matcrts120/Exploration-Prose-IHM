@@ -17,9 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class FinMissionActivity extends AppCompatActivity {
 
     private TextView statusIconView;
-    private TextView entitiesDetectedView;
-    private TextView allyIdView;
-    private TextView missionStatusView;
+
     private Button confirmButton;
 
     private SharedPreferences missionPrefs;
@@ -39,18 +37,12 @@ public class FinMissionActivity extends AppCompatActivity {
         // Set up animation
         setupAnimation();
 
-        // Load mission data
-        loadMissionData();
-
         // Set up button
         setupButton();
     }
 
     private void initializeViews() {
         statusIconView = findViewById(R.id.status_icon);
-        entitiesDetectedView = findViewById(R.id.entities_detected);
-        allyIdView = findViewById(R.id.ally_id);
-        missionStatusView = findViewById(R.id.mission_status);
         confirmButton = findViewById(R.id.confirm_button);
     }
 
@@ -60,18 +52,6 @@ public class FinMissionActivity extends AppCompatActivity {
 
         // Apply animation to status icon
         statusIconView.startAnimation(pulseAnimation);
-    }
-
-    private void loadMissionData() {
-        // You could load real data from SharedPreferences or a database
-        // For now we'll use sample data similar to the HTML
-
-        String teamId = missionPrefs.getString("team_id", "0314");
-        allyIdView.setText(teamId);
-
-        // Fixed data for demonstration - in a real app, you would get this from mission stats
-        entitiesDetectedView.setText("2");
-        missionStatusView.setText(getString(R.string.completed_status));
     }
 
     private void setupButton() {

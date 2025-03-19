@@ -62,7 +62,8 @@
         android:background="@color/white"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/button_container"
-        app:layout_constraintTop_toBottomOf="@+id/header" />
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <!-- Action Buttons -->
     <LinearLayout
@@ -125,7 +126,8 @@
             android:background="@drawable/edit_text_border"
             android:hint="@string/write_message"
             android:inputType="text"
-            android:padding="8dp" />
+            android:padding="8dp"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <Button
             android:id="@+id/send_button"
@@ -144,5 +146,18 @@
         android:layout_height="50dp"
         android:background="@color/eco_green"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/btn_eco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="Mode Eco"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/eco_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/footer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

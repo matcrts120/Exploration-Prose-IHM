@@ -89,6 +89,7 @@
             android:text="@string/retreat"
             android:textColor="@color/white"
             android:textSize="16sp" />
+
     </LinearLayout>
 
     <!-- Bottom Buttons Bar -->
@@ -102,6 +103,16 @@
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_retour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Retour"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/eco_green"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

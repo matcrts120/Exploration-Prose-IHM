@@ -93,41 +93,8 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="18sp"
                     android:textColor="@color/black"
-                    tools:text="Reconnaissance" />
+                    tools:text="Manteau noir" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mission_location_label"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/mission_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    tools:text="Zone Nord" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mission_time_label"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/mission_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    tools:text="12/03/2025 09:30" />
             </LinearLayout>
 
             <!-- Button -->

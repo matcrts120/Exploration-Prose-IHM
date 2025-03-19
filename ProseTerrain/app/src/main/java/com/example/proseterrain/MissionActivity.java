@@ -53,29 +53,15 @@ public class MissionActivity extends AppCompatActivity {
         TextView teamNameText = findViewById(R.id.team_name);
         TextView teamIdText = findViewById(R.id.team_id);
         TextView targetInfoText = findViewById(R.id.target_info);
-        TextView missionLocationText = findViewById(R.id.mission_location);
-        TextView missionTimeText = findViewById(R.id.mission_time);
 
         // Récupérer ou initialiser les données de mission
         String teamName = missionPrefs.getString("team_name", "Équipe Alpha");
         String teamId = missionPrefs.getString("team_id", "A001");
-        String targetInfo = missionPrefs.getString("target_info", "Reconnaissance");
-        String missionLocation = missionPrefs.getString("mission_location", "Zone Nord");
-
-        // Si la date/heure n'est pas encore enregistrée, l'enregistrer maintenant
-        String missionTime = missionPrefs.getString("mission_time", null);
-        if (missionTime == null) {
-            missionTime = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
-            SharedPreferences.Editor editor = missionPrefs.edit();
-            editor.putString("mission_time", missionTime);
-            editor.apply();
-        }
+        String targetInfo = missionPrefs.getString("target_info", "Manteau noir");
 
         // Afficher les données dans les TextView
         teamNameText.setText(teamName);
         teamIdText.setText(teamId);
         targetInfoText.setText(targetInfo);
-        missionLocationText.setText(missionLocation);
-        missionTimeText.setText(missionTime);
     }
 }

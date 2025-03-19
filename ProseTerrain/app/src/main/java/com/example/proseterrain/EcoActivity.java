@@ -15,6 +15,7 @@ public class EcoActivity extends AppCompatActivity {
     private Button endMissionButton;
     private Button requestBackupButton;
     private Button retreatButton;
+    private Button btnEco;
 
     private SharedPreferences missionPrefs;
 
@@ -35,6 +36,7 @@ public class EcoActivity extends AppCompatActivity {
         endMissionButton = findViewById(R.id.btn_end_mission);
         requestBackupButton = findViewById(R.id.btn_request_backup);
         retreatButton = findViewById(R.id.btn_retreat);
+        btnEco = findViewById(R.id.btn_retour);
     }
 
     private void setupButtons() {
@@ -65,6 +67,13 @@ public class EcoActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+        btnEco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                modeEco();
+            }
+        });
     }
 
     private void showEndMissionDialog() {
@@ -87,5 +96,17 @@ public class EcoActivity extends AppCompatActivity {
         builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
 
         builder.create().show();
+    }
+
+    private void modeEco() {
+        // Reset mission data
+        SharedPreferences.Editor editor = missionPrefs.edit();
+        editor.clear();
+        editor.apply();
+
+        // Eco screen
+        Intent intent = new Intent(EcoActivity.this, TransmissionActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
