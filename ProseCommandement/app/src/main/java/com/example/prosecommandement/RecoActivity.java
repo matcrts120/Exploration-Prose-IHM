@@ -33,9 +33,9 @@ public class RecoActivity extends AppCompatActivity {
     private Spinner modeSelector;
     private EditText messageInput;
     private Button sendButton;
-    private Button endMissionButton;
-    private Button requestBackupButton;
     private Button retreatButton;
+    private Button requestApprovedButton;
+    private Button requestDeniedButton;
     private SwitchCompat ecoModeSwitch;
 
     private SharedPreferences missionPrefs;
@@ -63,9 +63,9 @@ public class RecoActivity extends AppCompatActivity {
         modeSelector = findViewById(R.id.mode_selector);
         messageInput = findViewById(R.id.message_input);
         sendButton = findViewById(R.id.send_button);
-        endMissionButton = findViewById(R.id.btn_end_mission);
-        requestBackupButton = findViewById(R.id.btn_request_backup);
         retreatButton = findViewById(R.id.btn_retreat);
+        requestApprovedButton = findViewById(R.id.btn_request_approved);
+        requestDeniedButton = findViewById(R.id.btn_request_denied);
         ecoModeSwitch = findViewById(R.id.eco_mode_switch);
     }
 
@@ -96,12 +96,8 @@ public class RecoActivity extends AppCompatActivity {
     }
 
     private void setupConversation() {
-        // Initialize message list and adapter
-        messageList = new ArrayList<>();
-
-        // Add some sample messages
-        messageList.add(new Message("ID Allié", "La cible est en ligne de mire", "12:30"));
-        messageList.add(new Message("ID Allié", "Demande autorisation de tirer", "12:32"));
+        // Utiliser la liste partagée de messages
+        messageList = MessageManager.getInstance().getMessages();
 
         // Set up RecyclerView
         messageAdapter = new MessageAdapter(messageList);
@@ -121,32 +117,32 @@ public class RecoActivity extends AppCompatActivity {
             }
         });
 
-        // End mission button
-        endMissionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showConfirmationDialog();
-            }
-        });
-
-        // Request backup button
-        requestBackupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendSystemMessage("Demande de renfort envoyée.");
-            }
-        });
-
         // Retreat button
         retreatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendSystemMessage("Demande de repli envoyée.");
+                sendMessage("Demande de repli.");
 
                 // Show notification in eco mode if needed
                 if (ecoModeSwitch.isChecked()) {
                     switchToEcoMode();
                 }
+            }
+        });
+
+        // Request approved button
+        requestApprovedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage("Demande approvée.");
+            }
+        });
+
+        // Request refused button
+        requestDeniedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage("Demande refusée.");
             }
         });
     }
@@ -185,9 +181,13 @@ public class RecoActivity extends AppCompatActivity {
         // Get team ID
         String teamId = missionPrefs.getString("team_id", "ID Team");
 
-        // Create and add message
-        Message message = new Message(teamId, content, currentTime);
-        messageList.add(message);
+        // Create message
+        Message message = new Message("Commandement", content, currentTime);
+
+        // Add to shared message list
+        MessageManager.getInstance().addMessage(message);
+
+        // Update UI
         messageAdapter.notifyItemInserted(messageList.size() - 1);
 
         // Scroll to the bottom
@@ -195,33 +195,6 @@ public class RecoActivity extends AppCompatActivity {
 
         // Clear input field
         messageInput.setText("");
-    }
-
-    private void sendSystemMessage(String content) {
-        // Get current time
-        String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
-
-        // Create and add system message
-        Message message = new Message("Système", content, currentTime);
-        messageList.add(message);
-        messageAdapter.notifyItemInserted(messageList.size() - 1);
-
-        // Scroll to the bottom
-        conversationRecyclerView.smoothScrollToPosition(messageList.size() - 1);
-    }
-
-    private void showConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.end_mission);
-        builder.setMessage("Êtes-vous sûr de vouloir terminer la mission ?");
-        builder.setPositiveButton(R.string.confirm, (dialog, which) -> {
-            // End mission and go to config screen
-            Intent intent = new Intent(RecoActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        });
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-        builder.create().show();
     }
 
     private void changeMode(int position) {
@@ -247,7 +220,7 @@ public class RecoActivity extends AppCompatActivity {
 
     private void showRandomEntityDetectionPopup() {
         // Randomly show target detection popup (50% chance)
-        if (Math.random() > 0.5) {
+        if (Math.random() < 0.33) {
             // Create dialog
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             View customView = getLayoutInflater().inflate(R.layout.popup_entity, null);
@@ -282,6 +255,27 @@ public class RecoActivity extends AppCompatActivity {
                     Intent intent = new Intent(RecoActivity.this, CombatActivity.class);
                     startActivity(intent);
                     finish();
+                }
+            });
+
+            // Show dialog
+            dialog.show();
+        }
+        else if (Math.random() < 0.66) {
+            // Create dialog
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View customView = getLayoutInflater().inflate(R.layout.popup_allie, null);
+            builder.setView(customView);
+
+            final AlertDialog dialog = builder.create();
+            dialog.setCancelable(false);
+
+            // Set up close button
+            Button closeButton = customView.findViewById(R.id.close_button);
+            closeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
                 }
             });
 

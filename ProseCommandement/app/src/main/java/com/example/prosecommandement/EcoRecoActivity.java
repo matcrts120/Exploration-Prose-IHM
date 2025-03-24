@@ -13,9 +13,20 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class EcoRecoActivity extends AppCompatActivity {
 
+    private RecyclerView conversationRecyclerView;
+    private MessageAdapter messageAdapter;
+    private List<Message> messageList;
     private Spinner modeSelector;
     private Button retreatButton;
     private Button requestApprovedButton;
@@ -35,11 +46,13 @@ public class EcoRecoActivity extends AppCompatActivity {
         // Initialize UI components
         initializeViews();
         setupModeSelector();
+        setupConversation();
         setupButtons();
         setupEcoMode();
     }
 
     private void initializeViews() {
+        conversationRecyclerView = findViewById(R.id.conversation_recycler_view);
         modeSelector = findViewById(R.id.mode_selector);
         retreatButton = findViewById(R.id.btn_retreat);
         requestApprovedButton = findViewById(R.id.btn_request_approved);
@@ -73,13 +86,22 @@ public class EcoRecoActivity extends AppCompatActivity {
         });
     }
 
+    private void setupConversation() {
+        // Utiliser la liste partagée de messages
+        messageList = MessageManager.getInstance().getMessages();
+
+        // Set up RecyclerView
+        messageAdapter = new MessageAdapter(messageList);
+        conversationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        conversationRecyclerView.setAdapter(messageAdapter);
+    }
+
     private void setupButtons() {
         // Retreat button
         retreatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(EcoRecoActivity.this,
-                        "Confirmation de repli envoyée", Toast.LENGTH_SHORT).show();
+                sendMessage("Demande de repli.");
             }
         });
 
@@ -87,17 +109,15 @@ public class EcoRecoActivity extends AppCompatActivity {
         requestApprovedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(EcoRecoActivity.this,
-                        "Demande validée", Toast.LENGTH_SHORT).show();
+                sendMessage("Demande approvée.");
             }
         });
 
-        // Request denied button
+        // Request refused button
         requestDeniedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(EcoRecoActivity.this,
-                        "Demande refusée", Toast.LENGTH_SHORT).show();
+                sendMessage("Demande refusée.");
             }
         });
     }
@@ -126,6 +146,26 @@ public class EcoRecoActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RecoActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void sendMessage(String content) {
+        // Get current time
+        String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+
+        // Get team ID
+        String teamId = missionPrefs.getString("team_id", "ID Team");
+
+        // Create message
+        Message message = new Message("Commandement", content, currentTime);
+
+        // Add to shared message list
+        MessageManager.getInstance().addMessage(message);
+
+        // Update UI
+        messageAdapter.notifyItemInserted(messageList.size() - 1);
+
+        // Scroll to the bottom
+        conversationRecyclerView.smoothScrollToPosition(messageList.size() - 1);
     }
 
     private void changeMode(int position) {

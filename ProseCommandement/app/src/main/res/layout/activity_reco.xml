@@ -70,35 +70,35 @@
         app:layout_constraintBottom_toTopOf="@+id/chat_input_container">
 
         <Button
-            android:id="@+id/btn_end_mission"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="2dp"
-            android:layout_weight="1"
-            android:backgroundTint="#242A75"
-            android:text="@string/end_mission"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btn_request_backup"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="2dp"
-            android:layout_weight="1"
-            android:backgroundTint="#242A75"
-            android:text="@string/request_backup"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-
-        <Button
             android:id="@+id/btn_retreat"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="2dp"
             android:layout_weight="1"
             android:backgroundTint="#242A75"
             android:text="@string/retreat"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_request_approved"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="2dp"
+            android:layout_weight="1"
+            android:backgroundTint="#242A75"
+            android:text="@string/request_approved"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_request_denied"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="2dp"
+            android:layout_weight="1"
+            android:backgroundTint="#242A75"
+            android:text="@string/request_denied"
             android:textColor="@color/white"
             android:textSize="14sp" />
     </LinearLayout>

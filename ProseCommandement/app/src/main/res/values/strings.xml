@@ -31,9 +31,9 @@
     <string name="audit_mode">Mode Audit</string>
     <string name="send">Envoyer</string>
     <string name="write_message">Écrire un message…</string>
-    <string name="end_mission">Fin de mission</string>
-    <string name="request_backup">Demande de renfort</string>
-    <string name="retreat">Repli</string>
+    <string name="retreat">Demande de repli</string>
+    <string name="request_approved">Demande validée</string>
+    <string name="request_denied">Demande refusée</string>
 
     <!-- Popups -->
     <string name="confirmation">Confirmation</string>
@@ -51,8 +51,6 @@
 
     <!-- Eco Mode -->
     <string name="eco_mode">Mode Éco</string>
-    <string name="request_approved">Demande validée</string>
-    <string name="request_denied">Demande refusée</string>
     <string name="retreat_requested">⚠️ L\'unité terrain a demandé un repli !</string>
 
     <!-- Audit Screen -->
@@ -62,4 +60,9 @@
     <string name="mission_status">État de la mission</string>
     <string name="end_mission_button">Terminer la mission</string>
     <string name="mission_ended">Fin de la mission</string>
+
+    <!-- Valeurs pour popup_allie.xml -->
+    <string name="ally_identified">ALLIÉ IDENTIFIÉ !</string>
+    <string name="name_label">Nom:</string>
+    <string name="id_label">ID:</string>
 </resources>

@@ -66,13 +66,15 @@ public class AuditActivity extends AppCompatActivity {
 
     private void showEndMissionConfirmation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.end_mission);
+        builder.setTitle(R.string.mission_ended);
         builder.setMessage(R.string.mission_ended);
         builder.setPositiveButton(R.string.confirm, (dialog, which) -> {
             // Reset mission data
             SharedPreferences.Editor editor = missionPrefs.edit();
             editor.clear();
             editor.apply();
+
+            MessageManager.getInstance().reset();
 
             // Go back to config activity
             Intent intent = new Intent(AuditActivity.this, MainActivity.class);
