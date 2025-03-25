@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 default:
                     // Par défaut, afficher l'écran de mission
-                    intent = new Intent(this, MissionActivity.class);
+                    intent = new Intent(this, TransmissionActivity.class);
                     break;
             }
         } else {

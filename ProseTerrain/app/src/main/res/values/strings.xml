@@ -28,7 +28,7 @@
     <string name="write_message">Écrire un message…</string>
     <string name="end_mission">Fin de mission</string>
     <string name="request_backup">Demande de renfort</string>
-    <string name="retreat">Repli</string>
+    <string name="retreat">Demande de repli</string>
     <string name="end_mission_confirmation">Êtes-vous sûr de vouloir terminer la mission ?</string>
     <string name="command_retreat_request">⚠️ Le commandement a demandé un repli !</string>
 

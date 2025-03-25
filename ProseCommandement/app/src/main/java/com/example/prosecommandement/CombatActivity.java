@@ -3,15 +3,20 @@ package com.example.prosecommandement;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.MediaController;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -29,6 +34,8 @@ public class CombatActivity extends AppCompatActivity {
     private RecyclerView conversationRecyclerView;
     private MessageAdapter messageAdapter;
     private List<Message> messageList;
+    private VideoView videoView;
+    private MediaController mediaController;
 
     private Spinner modeSelector;
     private EditText messageInput;
@@ -50,6 +57,7 @@ public class CombatActivity extends AppCompatActivity {
 
         // Initialize UI components
         initializeViews();
+        setupVideoView();
         setupModeSelector();
         setupConversation();
         setupButtons();
@@ -68,6 +76,54 @@ public class CombatActivity extends AppCompatActivity {
         requestApprovedButton = findViewById(R.id.btn_request_approved);
         requestDeniedButton = findViewById(R.id.btn_request_denied);
         ecoModeSwitch = findViewById(R.id.eco_mode_switch);
+        videoView = findViewById(R.id.videoView);
+    }
+
+    private void setupVideoView() {
+        // Créer un MediaController pour les contrôles de lecture
+        mediaController = new MediaController(this);
+        mediaController.setAnchorView(videoView);
+
+        // Attacher le MediaController au VideoView
+        videoView.setMediaController(mediaController);
+
+        try {
+            // Pour utiliser une vidéo locale stockée dans res/raw
+            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video_thales);
+
+            // Alternativement, pour une vidéo en ligne
+            // Uri uri = Uri.parse("https://example.com/videos/surveillance.mp4");
+
+            videoView.setVideoURI(uri);
+
+            // Configurer les événements de la vidéo
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    // Configuration du lecteur
+                    mp.setLooping(true); // Lecture en boucle
+                    mp.setVolume(0.5f, 0.5f); // Volume réduit
+
+                    // Démarrer la lecture
+                    videoView.start();
+                }
+            });
+
+            // Gérer les erreurs
+            videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    Log.e("VideoView", "Erreur de lecture vidéo: " + what + ", " + extra);
+                    Toast.makeText(CombatActivity.this,
+                            "Erreur de lecture vidéo", Toast.LENGTH_SHORT).show();
+                    return true; // L'erreur a été gérée
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e("VideoView", "Erreur d'initialisation de la vidéo", e);
+            Toast.makeText(this, "Impossible de charger la vidéo", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupModeSelector() {
@@ -238,6 +294,31 @@ public class CombatActivity extends AppCompatActivity {
 
             // Show dialog
             dialog.show();
+        }
+    }
+
+    // Gérer le cycle de vie pour les ressources vidéo
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (videoView != null && videoView.isPlaying()) {
+            videoView.pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (videoView != null && !videoView.isPlaying()) {
+            videoView.resume();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (videoView != null) {
+            videoView.stopPlayback();
         }
     }
 }

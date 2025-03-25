@@ -50,28 +50,15 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Video Container -->
-    <View
-        android:id="@+id/video_container"
+    <!-- Conversation Area -->
+    <VideoView
+        android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="10dp"
-        android:background="@color/black"
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vidéo"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/video_container"
-        app:layout_constraintEnd_toEndOf="@+id/video_container"
-        app:layout_constraintStart_toStartOf="@+id/video_container"
-        app:layout_constraintTop_toTopOf="@+id/video_container" />
-
-    <!-- Conversation Area -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/conversation_recycler_view"
         android:layout_width="match_parent"
@@ -80,7 +67,7 @@
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/button_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/video_container" />
+        app:layout_constraintTop_toBottomOf="@+id/videoView" />
 
     <!-- Action Buttons -->
     <LinearLayout

@@ -127,6 +127,8 @@
             android:hint="@string/write_message"
             android:inputType="text"
             android:padding="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="#757575"
             tools:ignore="TouchTargetSizeCheck" />
 
         <Button

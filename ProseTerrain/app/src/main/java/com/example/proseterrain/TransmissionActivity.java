@@ -26,14 +26,12 @@ public class TransmissionActivity extends AppCompatActivity {
     private RecyclerView conversationRecyclerView;
     private MessageAdapter messageAdapter;
     private List<Message> messageList;
-
     private EditText messageInput;
     private Button sendButton;
     private Button endMissionButton;
     private Button requestBackupButton;
     private Button retreatButton;
     private Button btnEco;
-
     private SharedPreferences missionPrefs;
     private Random random = new Random();
 
@@ -64,17 +62,21 @@ public class TransmissionActivity extends AppCompatActivity {
     }
 
     private void setupConversation() {
-        // Initialiser la liste de messages et l'adaptateur
-        messageList = new ArrayList<>();
+        // Utiliser la liste partagée de messages
+        messageList = MessageManager.getInstance().getMessages();
 
-        // Ajouter quelques messages d'exemple
-        messageList.add(new Message("ID Allié", "La cible est en ligne de mire", "12:30"));
-        messageList.add(new Message("ID Allié", "Demande autorisation de tirer", "12:32"));
-
-        // Configurer le RecyclerView
+        // Set up RecyclerView avec l'orientation standard (du haut vers le bas)
         messageAdapter = new MessageAdapter(messageList);
-        conversationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        conversationRecyclerView.setLayoutManager(layoutManager);
         conversationRecyclerView.setAdapter(messageAdapter);
+
+        // Faites défiler jusqu'au dernier message si la liste n'est pas vide
+        if (!messageList.isEmpty()) {
+            conversationRecyclerView.post(() -> {
+                conversationRecyclerView.scrollToPosition(messageList.size() - 1);
+            });
+        }
     }
 
     private void setupButtons() {
@@ -101,8 +103,7 @@ public class TransmissionActivity extends AppCompatActivity {
         requestBackupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendSystemMessage("Demande de renfort envoyée.");
-                Toast.makeText(TransmissionActivity.this, "Demande de renfort envoyée au commandement", Toast.LENGTH_SHORT).show();
+                sendMessage("Demande de renfort.");
             }
         });
 
@@ -110,8 +111,7 @@ public class TransmissionActivity extends AppCompatActivity {
         retreatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendSystemMessage("Demande de repli envoyée.");
-                Toast.makeText(TransmissionActivity.this, "Demande de repli envoyée au commandement", Toast.LENGTH_SHORT).show();
+                sendMessage("Demande de repli.");
             }
         });
 
@@ -124,34 +124,22 @@ public class TransmissionActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String content) {
-        // Obtenir l'heure actuelle
+        // Get current time
         String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
 
-        // Obtenir l'ID de l'équipe
-        String teamId = missionPrefs.getString("team_id", "ID Team");
+        // Get team ID
+        String teamName = missionPrefs.getString("team_name", "ID Team");
 
-        // Créer et ajouter le message
-        Message message = new Message(teamId, content, currentTime);
-        messageList.add(message);
+        // Create message
+        Message message = new Message(teamName, content, currentTime);
+
+        // Add to shared message list
+        MessageManager.getInstance().addMessage(message);
+
+        // Update UI
         messageAdapter.notifyItemInserted(messageList.size() - 1);
 
-        // Faire défiler vers le bas
-        conversationRecyclerView.smoothScrollToPosition(messageList.size() - 1);
-
-        // Effacer le champ de saisie
-        messageInput.setText("");
-    }
-
-    private void sendSystemMessage(String content) {
-        // Obtenir l'heure actuelle
-        String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
-
-        // Créer et ajouter le message système
-        Message message = new Message("Système", content, currentTime);
-        messageList.add(message);
-        messageAdapter.notifyItemInserted(messageList.size() - 1);
-
-        // Faire défiler vers le bas
+        // Scroll to the bottom
         conversationRecyclerView.smoothScrollToPosition(messageList.size() - 1);
     }
 
@@ -199,11 +187,6 @@ public class TransmissionActivity extends AppCompatActivity {
     }
 
     private void modeEco() {
-        // Réinitialiser les données de mission
-        SharedPreferences.Editor editor = missionPrefs.edit();
-        editor.clear();
-        editor.apply();
-
         // Ecran Eco
         Intent intent = new Intent(TransmissionActivity.this, EcoActivity.class);
         startActivity(intent);

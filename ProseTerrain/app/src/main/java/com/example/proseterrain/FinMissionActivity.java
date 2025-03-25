@@ -75,6 +75,8 @@ public class FinMissionActivity extends AppCompatActivity {
                         editor.clear();
                         editor.apply();
 
+                        MessageManager.getInstance().reset();
+
                         // Return to main activity
                         Intent intent = new Intent(FinMissionActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
