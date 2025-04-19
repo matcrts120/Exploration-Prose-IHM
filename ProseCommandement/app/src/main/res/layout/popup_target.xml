@@ -3,51 +3,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/white"
-    android:padding="15dp">
+    android:background="@drawable/popup_target_background"
+    android:padding="0dp">
 
-    <!-- Header -->
+    <!-- Header avec dégradé -->
     <TextView
         android:id="@+id/popup_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red"
-        android:padding="10dp"
+        android:background="@drawable/header_gradient"
+        android:padding="15dp"
         android:text="@string/target_detected"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:letterSpacing="0.05"
+        android:textAllCaps="true" />
 
-    <!-- Photo Container -->
+    <!-- Photo Container avec ombre intérieure -->
     <FrameLayout
         android:id="@+id/photo_container"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/black"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp" />
+
+    <!-- Section d'information sur la cible -->
+    <LinearLayout
+        android:id="@+id/target_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/info_background"
+        android:padding="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/info_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/photo"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </FrameLayout>
+            android:text="@string/target_info"
+            android:textAlignment="center"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:letterSpacing="0.05"
+            android:layout_marginBottom="10dp" />
 
-    <!-- Close Button -->
+        <TextView
+            android:id="@+id/info_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/target_feature"
+            android:textAlignment="center"
+            android:textColor="@color/target_red"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="5dp" />
+    </LinearLayout>
+
+    <!-- Bouton de fermeture avec dégradé -->
     <Button
         android:id="@+id/close_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#FF0000"
-        android:padding="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#e53935"
+        android:padding="14dp"
         android:text="@string/close"
-        android:textColor="#FFFFFFFF"
-        android:textSize="14sp"
-        tools:ignore="TextContrastCheck" />
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textAllCaps="true" />
 
 </LinearLayout>

@@ -7,6 +7,8 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.prosecommandement.database.MediaDatabaseInitializer;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int SPLASH_DISPLAY_LENGTH = 1500; // 1.5 secondes
@@ -19,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize SharedPreferences
         missionPrefs = getSharedPreferences("MissionPrefs", MODE_PRIVATE);
+
+        // Initialiser la base de données avec les médias
+        MediaDatabaseInitializer.initializeDatabase(this);
 
         // Splash screen delay
         new Handler().postDelayed(new Runnable() {

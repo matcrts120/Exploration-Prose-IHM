@@ -1,6 +1,7 @@
 package com.example.prosecommandement;
 
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -13,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,6 +25,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.example.prosecommandement.database.MediaItem;
+import com.example.prosecommandement.database.MediaRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -87,43 +94,75 @@ public class CombatActivity extends AppCompatActivity {
         // Attacher le MediaController au VideoView
         videoView.setMediaController(mediaController);
 
-        try {
-            // Pour utiliser une vidéo locale stockée dans res/raw
-            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video_thales);
+        // Créer un repository pour accéder aux médias
+        MediaRepository mediaRepository = new MediaRepository((Application) getApplicationContext());
 
-            // Alternativement, pour une vidéo en ligne
-            // Uri uri = Uri.parse("https://example.com/videos/surveillance.mp4");
+        // Récupérer une vidéo aléatoire pour le mode combat
+        mediaRepository.getFilteredMedia("video", "combat")
+                .thenAccept(videos -> {
+                    if (videos != null && !videos.isEmpty()) {
+                        // Choisir une vidéo aléatoire de la liste
+                        int randomIndex = (int) (Math.random() * videos.size());
+                        MediaItem video = videos.get(randomIndex);
 
-            videoView.setVideoURI(uri);
+                        // Exécuter sur le thread UI
+                        runOnUiThread(() -> {
+                            try {
+                                Uri uri = Uri.parse(video.getPath());
+                                videoView.setVideoURI(uri);
 
-            // Configurer les événements de la vidéo
-            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    // Configuration du lecteur
-                    mp.setLooping(true); // Lecture en boucle
-                    mp.setVolume(0.5f, 0.5f); // Volume réduit
+                                // Configurer les événements de la vidéo
+                                videoView.setOnPreparedListener(mp -> {
+                                    mp.setLooping(true); // Lecture en boucle
+                                    mp.setVolume(0.5f, 0.5f); // Volume réduit
+                                    videoView.start();
+                                });
 
-                    // Démarrer la lecture
-                    videoView.start();
-                }
-            });
+                                // Gérer les erreurs
+                                videoView.setOnErrorListener((mp, what, extra) -> {
+                                    Log.e("VideoView", "Erreur de lecture vidéo: " + what + ", " + extra);
+                                    Toast.makeText(CombatActivity.this,
+                                            "Erreur de lecture vidéo", Toast.LENGTH_SHORT).show();
+                                    return true; // L'erreur a été gérée
+                                });
 
-            // Gérer les erreurs
-            videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                @Override
-                public boolean onError(MediaPlayer mp, int what, int extra) {
-                    Log.e("VideoView", "Erreur de lecture vidéo: " + what + ", " + extra);
-                    Toast.makeText(CombatActivity.this,
-                            "Erreur de lecture vidéo", Toast.LENGTH_SHORT).show();
-                    return true; // L'erreur a été gérée
-                }
-            });
+                            } catch (Exception e) {
+                                Log.e("VideoView", "Erreur d'initialisation de la vidéo", e);
+                                Toast.makeText(CombatActivity.this,
+                                        "Impossible de charger la vidéo", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        // Aucune vidéo n'a été trouvée, utiliser une vidéo par défaut
+                        runOnUiThread(() -> {
+                            try {
+                                // Utiliser une vidéo de sauvegarde dans res/raw
+                                Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video_thales);
+                                videoView.setVideoURI(uri);
+                                videoView.start();
+                            } catch (Exception e) {
+                                Log.e("VideoView", "Erreur de chargement de la vidéo de secours", e);
+                            }
+                        });
+                    }
+                })
+                .exceptionally(throwable -> {
+                    // Gérer les erreurs de la requête à la base de données
+                    Log.e("Database", "Erreur lors de la récupération des vidéos", throwable);
 
-        } catch (Exception e) {
-            Log.e("VideoView", "Erreur d'initialisation de la vidéo", e);
-            Toast.makeText(this, "Impossible de charger la vidéo", Toast.LENGTH_SHORT).show();
-        }
+                    // Utiliser une vidéo de sauvegarde
+                    runOnUiThread(() -> {
+                        try {
+                            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video_thales);
+                            videoView.setVideoURI(uri);
+                            videoView.start();
+                        } catch (Exception e) {
+                            Log.e("VideoView", "Erreur de chargement de la vidéo de secours", e);
+                        }
+                    });
+
+                    return null;
+                });
     }
 
     private void setupModeSelector() {
@@ -273,9 +312,9 @@ public class CombatActivity extends AppCompatActivity {
     }
 
     private void showRandomTargetDetectionPopup() {
-        // Randomly show target detection popup (50% chance)
+        // Vérifier si on affiche le popup (50% de chance)
         if (Math.random() > 0.5) {
-            // Create dialog
+            // Créer dialog
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             View customView = getLayoutInflater().inflate(R.layout.popup_target, null);
             builder.setView(customView);
@@ -283,16 +322,46 @@ public class CombatActivity extends AppCompatActivity {
             final AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
 
-            // Set up close button
-            Button closeButton = customView.findViewById(R.id.close_button);
-            closeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
+            // Référence au conteneur d'image dans la popup
+            FrameLayout photoContainer = customView.findViewById(R.id.photo_container);
 
-            // Show dialog
+            // Créer un repository
+            MediaRepository mediaRepository = new MediaRepository((Application) getApplicationContext());
+
+            // Récupérer une photo de cible aléatoire
+            mediaRepository.getRandomByCategory("target")
+                    .thenAccept(photo -> {
+                        if (photo != null) {
+                            // Exécuter sur le thread UI
+                            runOnUiThread(() -> {
+                                // Créer une ImageView pour afficher la photo
+                                ImageView imageView = new ImageView(this);
+                                imageView.setLayoutParams(new FrameLayout.LayoutParams(
+                                        FrameLayout.LayoutParams.MATCH_PARENT,
+                                        FrameLayout.LayoutParams.MATCH_PARENT));
+                                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                                // Charger l'image avec Glide (meilleure performance)
+                                Glide.with(this)
+                                        .load(Uri.parse(photo.getPath()))
+                                        .into(imageView);
+
+                                // Ajouter l'ImageView au conteneur
+                                photoContainer.removeAllViews();
+                                photoContainer.addView(imageView);
+                            });
+                        }
+                    })
+                    .exceptionally(throwable -> {
+                        Log.e("Database", "Erreur lors de la récupération de la photo", throwable);
+                        return null;
+                    });
+
+            // Configurer le bouton de fermeture
+            Button closeButton = customView.findViewById(R.id.close_button);
+            closeButton.setOnClickListener(v -> dialog.dismiss());
+
+            // Afficher le dialog
             dialog.show();
         }
     }
