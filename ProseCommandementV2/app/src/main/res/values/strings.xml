@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Commandement</string>
+
+    <!-- Config Screen -->
+    <string name="config_title">Configuration de la Mission</string>
+    <string name="team_name">Nom de l\'équipe</string>
+    <string name="team_id">ID de l\'équipe</string>
+    <string name="target_info">Information de la cible</string>
+    <string name="validate_mission">Valider la mission</string>
+    <string name="fields_required">Tous les champs sont obligatoires</string>
+
+    <!-- Operation Modes Array -->
+    <string-array name="operation_modes_sur">
+        <item>Mode Sûr</item>
+        <item>Mode Reconnaissance</item>
+        <item>Mode Combat</item>
+        <item>Mode Audit</item>
+    </string-array>
+
+    <string-array name="operation_modes">
+        <item>Mode Sûr</item>
+        <item>Mode Reconnaissance</item>
+        <item>Mode Combat</item>
+    </string-array>
+
+    <!-- Safe Mode Screen -->
+    <string name="safe_mode">Mode Sûr</string>
+    <string name="reconnaissance_mode">Mode Reconnaissance</string>
+    <string name="combat_mode">Mode Combat</string>
+    <string name="audit_mode">Mode Audit</string>
+    <string name="send">Envoyer</string>
+    <string name="write_message">Écrire un message…</string>
+    <string name="retreat">Demande de repli</string>
+    <string name="request_approved">Demande validée</string>
+    <string name="request_denied">Demande refusée</string>
+
+    <!-- Popups -->
+    <string name="confirmation">Confirmation</string>
+    <string name="error">Erreur</string>
+    <string name="close">Fermer</string>
+    <string name="confirm">Confirmer</string>
+    <string name="cancel">Annuler</string>
+    <string name="audit_confirmation">Êtes-vous sûr de vouloir passer en mode audit ? Cela mettra fin à la mission.</string>
+    <string name="unknown_entity">ENTITÉ INCONNUE</string>
+    <string name="target_detected">⚠️ CIBLE DÉTECTÉE ⚠️</string>
+    <string name="photo">Photo</string>
+    <string name="sure">Sûr</string>
+    <string name="combat">Combat</string>
+    <string name="ignore">Ignoré</string>
+
+    <!-- Eco Mode -->
+    <string name="eco_mode">Mode Éco</string>
+    <string name="retreat_requested">⚠️ L\'unité terrain a demandé un repli !</string>
+
+    <!-- Audit Screen -->
+    <string name="audit_title">Audit de la Mission</string>
+    <string name="entities_detected">Nombre d\'entités détectées</string>
+    <string name="allies_ids">ID des alliés</string>
+    <string name="mission_status">État de la mission</string>
+    <string name="end_mission_button">Terminer la mission</string>
+    <string name="mission_ended">Fin de la mission</string>
+
+    <!-- Valeurs pour popup_allie.xml -->
+    <string name="ally_identified">ALLIÉ IDENTIFIÉ !</string>
+    <string name="name_label">Nom:</string>
+    <string name="id_label">ID:</string>
+
+    <string name="target_feature">Manteau noir</string>
+</resources>
